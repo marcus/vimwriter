@@ -1,0 +1,4 @@
+== TODO
+
+add options to toggle status, zoom in, zoom out, show invisible chars, wrap, writing directions, etc. see writeroom's feature set. make intelligent where possible (instead of toggle, use verbs to hide/show etc).
+
