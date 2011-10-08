@@ -1,4 +1,4 @@
-" Vim's full screen mode is great, but it has nothing on WriteRoom [1]. This
+" Vim's full screen mode is great, but it has nothing on WriteWriter [1]. This
 " plugin is a tribute to a great Mac app. See README.mkd for details.
 "
 " [1] http://www.hogbaysoftware.com/products/writeroom
@@ -7,70 +7,70 @@
 
 " no point loading the plugin in the console
 if has("gui_running") == 0
-  "echomsg("VimRoom only runs in the gui")
+  "echomsg("VimWriter only runs in the gui")
   finish
 endif
 
-" The VimRoom colorscheme -- the default one is a tribute to WriteRoom
-let g:VimRoom_Colorscheme = "VimRoom"
+" The VimWriter colorscheme -- the default one is a tribute to WriteWriter
+let g:VimWriter_Colorscheme = "VimWriter"
 
 " mutually exclusive with lines -- takes precedence
-let g:VimRoom_MaxLines = 0
+let g:VimWriter_MaxLines = 0
 
 " mutually exclusive with columns -- takes precedence
-let g:VimRoom_MaxColumns = 0
+let g:VimWriter_MaxColumns = 0
 
-let g:VimRoom_CentreCursor = 1
+let g:VimWriter_CentreCursor = 1
 
-let g:VimRoom_HideLineNumbers = 0
+let g:VimWriter_HideLineNumbers = 0
 
 " mutually exclusive with maxcolumns
-let g:VimRoom_Columns = 80
+let g:VimWriter_Columns = 80
 
 " mutually exclusive with maxlines
-let g:VimRoom_Lines = 60
+let g:VimWriter_Lines = 60
 
-let g:VimRoom_ShowWordCount = 1
+let g:VimWriter_ShowWordCount = 1
 
-let g:VimRoom_ShowLineCount = 1
+let g:VimWriter_ShowLineCount = 1
 
-let g:VimRoom_ShowCharCount = 1
+let g:VimWriter_ShowCharCount = 1
 
 " mutually exclusive with ZoomLevel -- takes precedence
-let g:VimRoom_FullScreenFont = ""
+let g:VimWriter_FullScreenFont = ""
 
 " for each zoom level, the font size will increase or decrease by 1 point
 " mutally exclusive with FullScreenFont
-let g:VimRoom_ZoomLevel = -1
+let g:VimWriter_ZoomLevel = -1
 
-let g:VimRoom_HighlightCursorLine = 0
+let g:VimWriter_HighlightCursorLine = 0
 
-let g:VimRoom_BlinkCursor = 1
+let g:VimWriter_BlinkCursor = 1
 
-let g:VimRoom_ShowStatusLine = 1
+let g:VimWriter_ShowStatusLine = 1
 
 " settings (overriding not recommended) {{{
 " Wrap the page
-let g:VimRoom_Wrap = 1
+let g:VimWriter_Wrap = 1
 
 " Show the bottom scrollbar
-let g:VimRoom_HideBottomScrollbar = 1
+let g:VimWriter_HideBottomScrollbar = 1
 
 " Show the left scrollbar
-let g:VimRoom_HideLeftScrollbar = 1
+let g:VimWriter_HideLeftScrollbar = 1
 
 " Show the below right scrollbar
-let g:VimRoom_HideRightScrollbar = 1
+let g:VimWriter_HideRightScrollbar = 1
 
 " Close all open tabs. Don't worry, your buffers will remain (in hidden mode).
-let g:VimRoom_CloseTabs = 1
+let g:VimWriter_CloseTabs = 1
 
 " Close all windows. Don't worry, your buffers will remain (in hidden mode).
-let g:VimRoom_CloseWindows = 1
+let g:VimWriter_CloseWindows = 1
 " }}}
 
 " menus {{{
-amenu <silent> Plugin.VimRoom.Toggle\ Full\ Screen\ Mode<Tab> :call VimRoomToggle()<cr>
+amenu <silent> Plugin.VimWriter.Toggle\ Full\ Screen\ Mode<Tab> :call VimWriterToggle()<cr>
 " }}}
 
 " mappings {{{
@@ -78,17 +78,17 @@ if has("gui_macvim")
   " TODO: figure out why the key can't be changed. until then, just disable it.
   "macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-e>
   menu disable Window.Toggle\ Full\ Screen\ Mode
-  macmenu Plugin.VimRoom.Toggle\ Full\ Screen\ Mode key=<D-S-f>
-  nnoremap <silent> <D-C-f> :call VimRoomStatusToggle()<cr>
+  macmenu Plugin.VimWriter.Toggle\ Full\ Screen\ Mode key=<D-S-f>
+  nnoremap <silent> <D-C-f> :call VimWriterStatusToggle()<cr>
 else
-  nnoremap <leader>r :call VimRoomToggle()<cr>
-  nnoremap <silent> <leader>R :call VimRoomStatusToggle()<cr>
+  nnoremap <leader>r :call VimWriterToggle()<cr>
+  nnoremap <silent> <leader>R :call VimWriterStatusToggle()<cr>
 endif
 " }}}
 
 " functions! {{{
-function! VimRoomToggle()
-  if !exists("s:VimRoom_Enabled")
+function! VimWriterToggle()
+  if !exists("s:VimWriter_Enabled")
     call s:ShowFullScreen()
   else
     call s:HideFullScreen()
@@ -133,8 +133,8 @@ endfunction
 
 " TODO: clean up this code
 function! s:ShowFullScreen()
-  if !exists("s:VimRoom_Enabled")
-    let s:VimRoom_Enabled = 1
+  if !exists("s:VimWriter_Enabled")
+    let s:VimWriter_Enabled = 1
 
     call s:BackupOldSettings()
 
@@ -144,31 +144,31 @@ function! s:ShowFullScreen()
     " the rate at which to update the statusline, and how long to keep it open
     set updatetime=1000
 
-    if g:VimRoom_CloseTabs == 1
+    if g:VimWriter_CloseTabs == 1
       if &hidden != 1
         set hidden
       endif
       silent tabonly
     endif
 
-    if g:VimRoom_CloseWindows == 1
+    if g:VimWriter_CloseWindows == 1
       if &hidden != 1
         set hidden
       endif
       silent only
     endif
 
-    if g:VimRoom_Wrap == 1
+    if g:VimWriter_Wrap == 1
       set wrap
     endif
 
-    if g:VimRoom_CentreCursor
+    if g:VimWriter_CentreCursor
       "set s:old_scrolloff = &scrolloff
       set scrolloff=999
     endif
 
     " TODO: test (all other options too)
-    if g:VimRoom_HideLineNumbers == 0
+    if g:VimWriter_HideLineNumbers == 0
       if &number == 1
         set nonumber
       elseif v:version > 702 && &relativenumber == 1
@@ -176,13 +176,13 @@ function! s:ShowFullScreen()
       endif
     endif
 
-    if g:VimRoom_ShowStatusLine == 1
+    if g:VimWriter_ShowStatusLine == 1
       call s:ShowStatus()
     else
       set statusline=\ 
     endif
 
-    if g:VimRoom_BlinkCursor == 1
+    if g:VimWriter_BlinkCursor == 1
       " enable with default values in case it's disabled by the user
       set guicursor-=a:blinkon0
       set guicursor+=sm:blinkwait700-blinkon400-blinkoff250
@@ -190,19 +190,19 @@ function! s:ShowFullScreen()
       set guicursor+=a:blinkon0
     endif
 
-    if g:VimRoom_HideLeftScrollbar == 1
+    if g:VimWriter_HideLeftScrollbar == 1
       set guioptions-=L
     endif
 
-    if g:VimRoom_HideRightScrollbar == 1
+    if g:VimWriter_HideRightScrollbar == 1
       set guioptions-=r
     endif
 
-    if g:VimRoom_HideBottomScrollbar == 1
+    if g:VimWriter_HideBottomScrollbar == 1
       set guioptions-=b
     endif
 
-    if g:VimRoom_HighlightCursorLine == 1 && &cursorline != 1
+    if g:VimWriter_HighlightCursorLine == 1 && &cursorline != 1
       let s:old_cursor = &cursorline
       set cursorline
     else
@@ -210,12 +210,12 @@ function! s:ShowFullScreen()
     endif
 
     " set the full screen colorscheme
-    exec "colorscheme " . g:VimRoom_Colorscheme
+    exec "colorscheme " . g:VimWriter_Colorscheme
 
-    if g:VimRoom_FullScreenFont != ""
-      let &guifont = g:VimRoom_FullScreenFont
+    if g:VimWriter_FullScreenFont != ""
+      let &guifont = g:VimWriter_FullScreenFont
     else
-      call s:Zoom(g:VimRoom_ZoomLevel)
+      call s:Zoom(g:VimWriter_ZoomLevel)
     endif
 
     " now configure full screen options
@@ -223,16 +223,16 @@ function! s:ShowFullScreen()
     " copy the selected colorscheme's background (the 'Normal' highlight group)
     set fuoptions=background:Normal
 
-    if g:VimRoom_MaxLines == 1
+    if g:VimWriter_MaxLines == 1
       set fuoptions+=maxvert
-    elseif g:VimRoom_Lines > 0
-      let &lines = g:VimRoom_Lines
+    elseif g:VimWriter_Lines > 0
+      let &lines = g:VimWriter_Lines
     endif
 
-    if g:VimRoom_MaxColumns == 1
+    if g:VimWriter_MaxColumns == 1
       set fuoptions+=maxhorz
-    elseif g:VimRoom_Columns > 0
-      let &columns = g:VimRoom_Columns
+    elseif g:VimWriter_Columns > 0
+      let &columns = g:VimWriter_Columns
     endif
 
     " use the minimum size for the command line
@@ -244,8 +244,8 @@ function! s:ShowFullScreen()
 endfunction
 
 function! s:HideFullScreen()
-  if exists("s:VimRoom_Enabled")
-    unlet s:VimRoom_Enabled
+  if exists("s:VimWriter_Enabled")
+    unlet s:VimWriter_Enabled
     call s:HideStatus(1)
     call s:RestoreOldSettings()
     set nofullscreen
@@ -253,10 +253,10 @@ function! s:HideFullScreen()
 endfunction
 
 function! s:UpdateFileStats()
-  if exists("s:VimRoom_Enabled")
-    let g:VimRoom_WordCount = 0
-    let g:VimRoom_CharCount = 0
-    let g:VimRoom_LineCount = 0
+  if exists("s:VimWriter_Enabled")
+    let g:VimWriter_WordCount = 0
+    let g:VimWriter_CharCount = 0
+    let g:VimWriter_LineCount = 0
 
     " if we're in insert mode, we want to go right (l) to compensate for the
     " stupid escape mode
@@ -272,17 +272,17 @@ function! s:UpdateFileStats()
     call setpos(".", [0, line("."), l:CursorPos[2], 0])
 
     try
-      let g:VimRoom_WordCount = str2nr(split(l:VimStats)[11])
-      let g:VimRoom_CharCount = str2nr(split(l:VimStats)[15])
-      let g:VimRoom_LineCount = str2nr(split(l:VimStats)[7])
+      let g:VimWriter_WordCount = str2nr(split(l:VimStats)[11])
+      let g:VimWriter_CharCount = str2nr(split(l:VimStats)[15])
+      let g:VimWriter_LineCount = str2nr(split(l:VimStats)[7])
     catch
       " we don't care if this fails...yet
     endtry
   endif
 endfunction
 
-function! VimRoomStatusToggle()
-  if !exists("s:VimRoom_StatusEnabled")
+function! VimWriterStatusToggle()
+  if !exists("s:VimWriter_StatusEnabled")
     call s:ShowStatus()
   else
     call s:HideStatus(0)
@@ -290,12 +290,12 @@ function! VimRoomStatusToggle()
 endfunction
 
 function! s:ShowStatus()
-  if !exists("s:VimRoom_StatusEnabled")
-    let s:VimRoom_StatusEnabled = 1
+  if !exists("s:VimWriter_StatusEnabled")
+    let s:VimWriter_StatusEnabled = 1
 
     set statusline=♦\ %f
 
-    if g:VimRoom_ShowCharCount == 1 || g:VimRoom_ShowWordCount == 1 || g:VimRoom_ShowLineCount == 1
+    if g:VimWriter_ShowCharCount == 1 || g:VimWriter_ShowWordCount == 1 || g:VimWriter_ShowLineCount == 1
       let l:StatusMeta = 1
     endif
 
@@ -312,9 +312,9 @@ function! s:ShowStatus()
 endfunction
 
 function! s:HideStatus(force)
-  if exists("s:VimRoom_StatusEnabled")
-    if g:VimRoom_ShowStatusLine == 0 || a:force == 1
-      unlet s:VimRoom_StatusEnabled
+  if exists("s:VimWriter_StatusEnabled")
+    if g:VimWriter_ShowStatusLine == 0 || a:force == 1
+      unlet s:VimWriter_StatusEnabled
       set statusline=\ 
     endif
   endif
@@ -324,16 +324,16 @@ endfunction
 function! GetFileStats()
   let l:FileStats = ""
 
-  if g:VimRoom_ShowCharCount == 1
-    let l:FileStats .= g:VimRoom_CharCount . "\ characters\ "
+  if g:VimWriter_ShowCharCount == 1
+    let l:FileStats .= g:VimWriter_CharCount . "\ characters\ "
   endif
 
-  if g:VimRoom_ShowWordCount == 1
-    let l:FileStats .= g:VimRoom_WordCount . "\ words\ "
+  if g:VimWriter_ShowWordCount == 1
+    let l:FileStats .= g:VimWriter_WordCount . "\ words\ "
   endif
 
-  if g:VimRoom_ShowLineCount == 1
-    let l:FileStats .= g:VimRoom_LineCount . "\ lines\ "
+  if g:VimWriter_ShowLineCount == 1
+    let l:FileStats .= g:VimWriter_LineCount . "\ lines\ "
   endif
 
   " trim potential left space
